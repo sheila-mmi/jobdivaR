@@ -24,7 +24,7 @@ jobdiva_detail = function(entity, id_entity, clean_entity_df)
   request = httr::GET(url = paste0(base_url, full_method)
                       , add_headers("Authorization" = jobdiva_login())
                       , query = list(
-                        paste0("'", tolower(id_entity), 'Id', "'") =  entity_ids
+                        assign(paste0("'", tolower(id_entity), 'Id', "'"),  entity_ids)
                         , 'alternateFormat' = TRUE
                       )
                       , encode = "json"
