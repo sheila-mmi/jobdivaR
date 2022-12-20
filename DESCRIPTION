@@ -1,0 +1,13 @@
+Package: jobdivaR
+Type: Package
+Title: Provides access to JobDiva (ATS) data
+Version: 0.1.0
+Author: Growth Hacking at Mitchell Martin
+Maintainer: Sheila Warrick <sheila.warrick@itmmi.com>
+Description: This package is a collection of all functions needed to interact with JobDiva (ATS)
+License: None
+Encoding: UTF-8
+LazyData: true
+Imports:
+  httr, stringr, jsonlite, magrittr
+RoxygenNote: 7.1.1
