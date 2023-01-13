@@ -11,9 +11,19 @@
 
 
 jobdiva_new_updated_records = function(entity
-                                       , from_date = as.character(format(Sys.Date() - 1, '%m/%d/%Y %H:%M:%S'))
+                                       , from_date = as.character(format(Sys.Date() - 2, '%m/%d/%Y %H:%M:%S'))
                                        , to_date = as.character(format(Sys.Date(), '%m/%d/%Y %H:%M:%S')))
 {
+  if(is.null(from_date))
+  {
+    from_date = as.character(format(as.Date(from_date), '%m/%d/%Y %H:%M:%S'))
+  }
+  
+  if(is.null(to_date))
+  {
+    to_date = as.character(format(as.Date(to_date), '%m/%d/%Y %H:%M:%S'))
+  }
+  
   base_url = "https://api.jobdiva.com/api/bi/"
   
   full_method = paste0("NewUpdated", stringr::str_to_title(entity), "Records")
@@ -28,7 +38,17 @@ jobdiva_new_updated_records = function(entity
                       , encode = "json"
                       , httr::verbose()) 
   results = httr::content(request)
+  results = results[[2]]
+  result_df = try(dplyr::bind_rows(results), silent = TRUE)
   
-  return(results)
+  if(class(result_df)[1] != 'try-error')
+  {
+    return(result_df)
+  } else
+  {
+    return(results)
+    
+  }
+  
   
 }
