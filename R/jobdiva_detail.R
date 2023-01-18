@@ -16,11 +16,12 @@ jobdiva_detail = function(entity, id_entity, clean_entity_df, udfs = "", bulk = 
   # id_entity (string: what id are you using to identify 
   # (i.e. for companynotesdetail: entity = 'companynotes', id_entity = 'company')
   entity_ids = clean_entity_df[, c(idcol)]
+  entity_ids = as.character(entity_ids[[1]])
   if (bulk == TRUE)
   {
     entity_name = paste0(id_entity, 'Ids')
     entity_ids = split(entity_ids, ceiling(seq_along(entity_ids)/100))
-    entity_ids = lapply(entity_ids, function(x) {
+    entity_ids = lapply(clean_entity_ids, function(x) {
       x = paste0(x, collapse = paste0('&', entity_name, '='))
       x =  paste0('?', entity_name, '=', x)
     })
@@ -56,6 +57,7 @@ jobdiva_detail = function(entity, id_entity, clean_entity_df, udfs = "", bulk = 
     temp_results = dplyr::bind_rows(httr::content(request)[[2]])
     results = rbind(results, temp_results)
   }
+  
   
   return(results)
 }
