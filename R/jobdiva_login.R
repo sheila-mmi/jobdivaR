@@ -26,6 +26,6 @@ jobdiva_login = function(client_id = 2425
   auth = httr::authenticate("api.jobdiva@itmmi.com"
                             , key) 
   
-  return(auth)
+  return(key)
 }
   
