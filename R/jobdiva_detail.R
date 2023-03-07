@@ -50,10 +50,11 @@ jobdiva_detail = function(entity, id_entity, clean_entity_df, udfs = "", bulk = 
   
   for (i in 1:length(entity_ids))
   {
-    request = httr::GET(url = paste0(base_url, full_method, entity_ids[[i]], '&alternateFormat=true', udf_vec)
+    request = httr::GET(url = paste0(base_url, full_method, entity_ids[i], '&alternateFormat=true', udf_vec)
                         , add_headers("Authorization" = jobdiva_login())
                         , encode = "json"
-                        , httr::verbose()) 
+                        , httr::verbose())
+    
     temp_results = dplyr::bind_rows(httr::content(request)[[2]])
     results = rbind(results, temp_results)
   }
