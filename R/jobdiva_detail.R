@@ -16,7 +16,7 @@ jobdiva_detail = function(entity, id_entity, clean_entity_df, udfs = "", bulk = 
   # id_entity (string: what id are you using to identify 
   # (i.e. for companynotesdetail: entity = 'companynotes', id_entity = 'company')
   entity_ids = clean_entity_df[, c(idcol)]
-  entity_ids = as.character(entity_ids[[1]])
+  entity_ids = as.character(entity_ids)
   if (bulk == TRUE)
   {
     entity_name = paste0(id_entity, 'Ids')
