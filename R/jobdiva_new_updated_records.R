@@ -11,7 +11,7 @@
 
 
 jobdiva_new_updated_records = function(entity
-                                       , from_date = as.character(format(Sys.Date() - 2, '%m/%d/%Y %H:%M:%S'))
+                                       , from_date = as.character(format(Sys.Date() - 1, '%m/%d/%Y %H:%M:%S'))
                                        , to_date = as.character(format(Sys.Date(), '%m/%d/%Y %H:%M:%S')))
 {
   if(is.null(from_date)|| from_date == ' ' || from_date == '')
