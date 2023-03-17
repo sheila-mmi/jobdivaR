@@ -26,8 +26,24 @@ jobdiva_create_contact_bulk = function(creation_df, type)
       alternate_email = unlist(str_split(x$EMAIL, ';'))[2]
     } else if ('WORK_EMAIL' %in% toupper(colnames(creation_df)) & 'PERSONAL_EMAIL' %in% toupper(colnames(creation_df)))
     {
-      email = unlist(str_split(x$PERSONAL_EMAIL, ';'))[1]
-      alternate_email = unlist(str_split(x$WORK_EMAIL, ';'))[1]
+      email = unlist(str_split(x$WORK_EMAIL, ';'))[1]
+      alternate_email = unlist(str_split(x$WORK_EMAIL, ';'))[2]
+      if(is.null(alternate_email))
+      {
+        alternate_email = unlist(str_split(x$PERSONAL_EMAIL, ';'))[1]
+      }
+      
+      if (is.null(email)
+          , is.na(email))
+      {
+        email = ""
+      }
+      
+      if(is.null(alternate_email)
+         , is.na(alternate_email))
+      {
+        alternate_email = ""
+      }
       
     } else {
       email = ""
