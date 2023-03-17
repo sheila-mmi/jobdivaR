@@ -34,6 +34,12 @@ jobdiva_detail = function(entity, id_entity, clean_entity_df, udfs = "", bulk = 
   
   if(udfs != "")
   {
+    udfs = str_replace_all(udfs, '%', '%25')
+    udfs = str_replace_all(udfs, '#', '%23')
+    udfs = str_replace_all(udfs, '&', '%26')
+    udfs = str_replace_all(udfs, '\\?', '%3F')
+    udfs = str_replace_all(udfs, '\\(', '%28')
+    udfs = str_replace_all(udfs, '\\)', '%29')
     udf_vec = paste0('&userFieldsName=', paste0(udfs, collapse = '&userFieldsName='))
   }
   else
