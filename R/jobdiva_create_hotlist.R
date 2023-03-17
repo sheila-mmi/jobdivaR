@@ -27,7 +27,7 @@ jobdiva_create_hotlist = function(name
                , tolower(priv)
                , '&description='
                , description
-               , '&sharedwithIds='
+               , '&sharedWithIds='
                , paste0(shared, collapse = '&sharedwithIds='))
   
   results = httr::POST(url
