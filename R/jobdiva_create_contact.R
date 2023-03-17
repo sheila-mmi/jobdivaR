@@ -1,0 +1,159 @@
+#' JobDiva Contact Creation
+#' 
+#' This function will insert information into JobDiva
+#' 
+#' @param first_name (type: string) --
+#' @param last_name (type: string) --
+#' @param title (type: string) --
+#' @param company_name (type: string) --
+#' @param email (type: string) --
+#' @param alternate_email (type: string) --
+#' @param type (type: string) -- The type of contact
+#' @param phone_numbers (type: vector) --
+#' @param phx_employee_id (type: string) -- The PHX Employee_Id of a contact from Phoenix
+#' @return The JobDiva contact id of newly created contact
+#' @export
+
+
+jobdiva_create_contact = function(first_name
+                                  , last_name
+                                  , title = ""
+                                  , company_name = ""
+                                  , email = ""
+                                  , alternate_email = ""
+                                  , type = ""
+                                  , phone_numbers = ""
+                                  , phx_employee_id = "")
+{
+  
+  # Clean variables
+  {
+    vars = {c(first_name
+             , last_name
+             , title
+             , company_name
+             , email
+             , alternate_email
+             , type 
+             , phone_numbers)}
+    
+    clean_vars = c()
+    for (i in 1:length(vars))
+    {
+      tmp = as.character(vars[i])
+      tmp = stringr::str_replace_all(tmp, ' ', '%20')
+      tmp = stringr::str_replace_all(tmp, '@', '%40')
+      clean_vars = c(clean_vars, as.character(tmp))
+    }
+  }
+  
+  # Fields Query
+  {
+    fields = {c('firstname'
+               , 'lastname'
+               , 'title'
+               , 'company'
+               , 'email'
+               , 'alternateemail'
+               , 'types'
+               , 'phones')}
+    
+    field_df = data.frame(fields, clean_vars)
+    # Drop rows w/ blanks 
+    field_df = field_df[nchar(as.character(field_df[,2])) > 0,]
+    
+    if (nrow(field_df) != 0)
+    {
+      fields = apply(field_df, 1, function(x){
+        udf = paste0('&'
+                     , tolower(as.character(x[1]))
+                     , "="
+                     , as.character(x[2]))
+      })
+      
+      field_query = paste0(fields, collapse = '')
+      field_query = str_replace_all(field_query, ' ', '%20')
+      field_query = str_replace_all(field_query, '@', '%40')
+    }
+    else
+    {
+      stop("ERROR: Mandatory fields not found.")
+    }
+  }
+  
+  # Build Query
+  {
+    
+    url = paste0('https://api.jobdiva.com/api/jobdiva/createContact?'
+                 , field_query)
+  }
+  
+  # Create Contact
+  {
+    results = httr::POST(url
+                         , add_headers("Authorization" = jobdiva_login())
+                         , encode = "json"
+                         , httr::verbose())
+    
+    status = as.numeric(results$status_code)
+    print(status)
+    cont = httr::content(results)
+    print(cont)
+
+    if(status == '200')
+    {
+      new_contact_id = as.numeric(cont)
+    } else if (status == '500')
+    {
+      msg = cont$message
+      
+      if(grepl('company', tolower(msg)))
+      {
+        # Create company
+        new_comp = try(jobdiva_create_company(clean_vars[4]), silent = TRUE)
+        if(class(new_comp)[1] != 'try-error')
+        {
+          # Retry creation
+          results = httr::POST(url
+                               , add_headers("Authorization" = jobdiva_login())
+                               , encode = "json"
+                               , httr::verbose())
+          
+          status = as.numeric(results$status_code)
+          cont = httr::content(results)
+          if(status == '200')
+          {
+            new_contact_id = as.numeric(cont)
+          } else
+          {
+            stop("ERROR: Creation failed twice")
+          }
+        }
+      }else
+      {
+        stop(paste0("ERROR: ", msg))
+      }
+    }
+    else
+    {
+      msg = cont$message
+      stop(paste0("ERROR: ", msg))
+    }
+    print(new_contact_id)
+  }
+  
+  # Add PHX ID to contact
+  {
+    if (phx_employee_id != ''
+        && phx_employee_id != " "
+        && !is.null(phx_employee_id)
+        && !is.na(phx_employee_id))
+    {
+      update_emp = try(jobdiva_update_phx_employee_id(new_contact_id
+                                                  , phx_employee_id), silent = TRUE)
+    }
+  }
+  
+  return(new_contact_id)
+}
+
