@@ -10,7 +10,8 @@
 
 
 jobdiva_create_company = function(company_name
-                                  , company_website)
+                                  , company_website = ""
+                                  , phx_normalized_company_id = "")
 {
   name = trimws(company_name)
   name = str_replace_all(name, ' ', '%20')
@@ -46,6 +47,20 @@ jobdiva_create_company = function(company_name
       
     }else {
       cont = character(0)
+      return(cont)
+    }
+  }
+  
+  # Add PHX ID to company
+  {
+    new_comp_id = cont
+    if (phx_normalized_company_id != ''
+        && phx_normalized_company_id != " "
+        && !is.null(phx_normalized_company_id)
+        && !is.na(phx_normalized_company_id))
+    {
+      update_comp = try(jobdiva_update_phx_normalized_company_id(new_comp_id
+                                                      , phx_normalized_company_id), silent = TRUE)
     }
   }
   
