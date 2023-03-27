@@ -9,7 +9,8 @@
 #' @param email (type: string) --
 #' @param alternate_email (type: string) --
 #' @param type (type: string) -- The type of contact
-#' @param phone_numbers (type: vector) --
+#' @param phone_numbers (type: string) -- The properly formatted string for phone number creation (action = 0
+#' , phone = phone number, ext = "" and only for work phones, type: w = work, h = home, c = cell/mobile, f = fax, p = pager)
 #' @param phx_employee_id (type: string) -- The PHX Employee_Id of a contact from Phoenix
 #' @return The JobDiva contact id of newly created contact
 #' @export
@@ -34,8 +35,7 @@ jobdiva_create_contact = function(first_name
              , company_name
              , email
              , alternate_email
-             , type 
-             , phone_numbers)}
+             , type )}
     
     clean_vars = c()
     for (i in 1:length(vars))
@@ -43,6 +43,9 @@ jobdiva_create_contact = function(first_name
       tmp = as.character(vars[i])
       tmp = stringr::str_replace_all(tmp, ' ', '%20')
       tmp = stringr::str_replace_all(tmp, '@', '%40')
+      tmp = stringr::str_replace_all(tmp, '\\(', '%28')
+      tmp = stringr::str_replace_all(tmp, '\\)', '%29')
+      
       clean_vars = c(clean_vars, as.character(tmp))
     }
   }
@@ -55,8 +58,7 @@ jobdiva_create_contact = function(first_name
                , 'company'
                , 'email'
                , 'alternateemail'
-               , 'types'
-               , 'phones')}
+               , 'types')}
     
     field_df = data.frame(fields, clean_vars)
     # Drop rows w/ blanks 
@@ -86,6 +88,11 @@ jobdiva_create_contact = function(first_name
     
     url = paste0('https://api.jobdiva.com/api/jobdiva/createContact?'
                  , field_query)
+    
+    if(phone_numbers != "" & !is.null(phone_numbers) & !is.na(phone_numbers))
+    {
+      url = paste0(url, phone_numbers)
+    }
   }
   
   # Create Contact
