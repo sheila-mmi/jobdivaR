@@ -24,7 +24,8 @@ jobdiva_create_contact = function(first_name
                                   , alternate_email = ""
                                   , type = ""
                                   , phone_numbers = ""
-                                  , phx_employee_id = "")
+                                  , phx_employee_id = ""
+                                  , linkedin = "")
 {
   
   # Clean variables
@@ -158,6 +159,18 @@ jobdiva_create_contact = function(first_name
     {
       update_emp = try(jobdiva_update_phx_employee_id(new_contact_id
                                                   , phx_employee_id), silent = TRUE)
+    }
+  }
+  
+  # Add LinkedIn to contact
+  {
+    if (linkedin != ''
+        && linkedin != " "
+        && !is.null(linkedin)
+        && !is.na(linkedin))
+    {
+      update_emp = try(jobdiva_update_contact_social_link_v2(new_contact_id
+                                                      , linkedin, "LinkedIn"), silent = TRUE)
     }
   }
   

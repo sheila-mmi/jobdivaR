@@ -11,6 +11,7 @@
 jobdiva_create_contact_bulk = function(creation_df, type)
 {
   contact_ids = c()
+  colnames(creation_df) = toupper(colnames(creation_df))
   
   for (i in 1:nrow(creation_df))
   {
@@ -53,6 +54,35 @@ jobdiva_create_contact_bulk = function(creation_df, type)
     phones = c()
     
     if ('WORK_PHONE' %in% toupper(colnames(creation_df)))
+    {
+      work_phones = unlist(str_split(x$WORK_PHONE, ';'))
+      # print(work_phones)
+      # print(x)
+      if (length(work_phones) > 0 & work_phones != "")
+      {
+        work_phone_queries = sapply(work_phones, function(phone){
+          print(phone)
+          paste0('&phones={%0A  "action": '
+                 , 0
+                 , ',%0A  "phone": "'
+                 , phone
+                 , '",%0A "type": "w"%0A,%0A  "ext": ""%0A}')
+        })
+        
+        work_phone_queries = paste0(work_phone_queries, collapse = '')
+        work_phone_queries = as.character(work_phone_queries)
+        work_phone_queries = str_replace_all(work_phone_queries, 	'\\{', '%7B')
+        work_phone_queries = str_replace_all(work_phone_queries, 	'\\}', '%7D')
+        work_phone_queries = str_replace_all(work_phone_queries, 	'\\:', '%3A')
+        work_phone_queries = str_replace_all(work_phone_queries, '\\,', '%2C')
+        work_phone_queries = str_replace_all(work_phone_queries, '"', '%22')
+        work_phone_queries = str_replace_all(work_phone_queries, ' ', '%20')
+        work_phone_queries = str_replace_all(work_phone_queries, ' ', '%40')
+        # work_phone_queries = str_replace_all(work_phone_queries, '\\(', '%28')
+        # work_phone_queries = str_replace_all(work_phone_queries, '\\)', '%29')
+        phones = c(phones, work_phone_queries)
+      }
+    } else if ('WORK_NUMBERS' %in% toupper(colnames(creation_df)))
     {
       work_phones = unlist(str_split(x$WORK_PHONE, ';'))
       # print(work_phones)
@@ -138,6 +168,34 @@ jobdiva_create_contact_bulk = function(creation_df, type)
       }
       
     }
+    else if ('MOBILE_NUMBERS' %in% toupper(colnames(creation_df)))
+    {
+      mobile_phones = unlist(str_split(x$MOBILE_NUMBERS, ';'))
+      if (length(mobile_phones) > 0 & mobile_phones != "")
+      {
+        mobile_phone_queries = sapply(mobile_phones, function(phone){
+          paste0('&phones={%0A  "action": '
+                 , 0
+                 , ',%0A  "phone": "'
+                 , phone
+                 , '",%0A  "type": "c"%0A}')
+        })
+        
+        mobile_phone_queries = paste0(mobile_phone_queries, collapse = '')
+        mobile_phone_queries = as.character(mobile_phone_queries)
+        mobile_phone_queries = str_replace_all(mobile_phone_queries, 	'\\{', '%7B')
+        mobile_phone_queries = str_replace_all(mobile_phone_queries, 	'\\}', '%7D')
+        mobile_phone_queries = str_replace_all(mobile_phone_queries, 	'\\:', '%3A')
+        mobile_phone_queries = str_replace_all(mobile_phone_queries, '\\,', '%2C')
+        mobile_phone_queries = str_replace_all(mobile_phone_queries, '"', '%22')
+        mobile_phone_queries = str_replace_all(mobile_phone_queries, ' ', '%20')
+        mobile_phone_queries = str_replace_all(mobile_phone_queries, ' ', '%40')
+        # mobile_phone_queries = str_replace_all(mobile_phone_queries, '\\(', '%28')
+        # mobile_phone_queries = str_replace_all(mobile_phone_queries, '\\)', '%29')
+        phones = c(phones, mobile_phone_queries)
+      }
+      
+    }
     
     if(length(phones) == 0)
     {
@@ -148,7 +206,14 @@ jobdiva_create_contact_bulk = function(creation_df, type)
     }
     
     phx_employee_id = x$EMPLOYEE_ID
-    print(phones)
+    if (is.null(phx_employee_id) & ('LEGACY_ID' %in% toupper(colnames(creation_df))))
+    {
+      phx_employee_id = x$LEGACY_ID
+    }
+    
+    linkedin = x$LINKEDIN
+
+    # print(phones)
   
     # print(paste(ifelse(is.null(first_name), "", first_name)
     #             , ifelse(is.null(last_name),"",last_name)
@@ -166,7 +231,8 @@ jobdiva_create_contact_bulk = function(creation_df, type)
                                     , type = type
                                     , alternate_email =  ifelse(is.null(alternate_email), "",alternate_email)
                                     , phx_employee_id = ifelse(is.null(phx_employee_id), "",phx_employee_id)
-                                    , phone_numbers = ifelse(is.null(phones), "",phones)), silent = TRUE)
+                                    , phone_numbers = ifelse(is.null(phones), "",phones)
+                                    , linkedin = ifelse(is.null(linkedin), "",linkedin)), silent = TRUE)
     if (class(single)[1] != 'try-error')
     {
       contact_ids = c(contact_ids, single)
