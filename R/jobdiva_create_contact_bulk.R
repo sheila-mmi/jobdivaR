@@ -4,6 +4,7 @@
 #' 
 #' @param creation_df (type: dataframe) -- a dataframe w/ the columns to create the contact
 #'  (must at least contain first and last names otherwise the contact will not be created. Currently does not handle phone numbers) 
+#' @param type (type: string) -- a string to indicate the contact type to associate the contact as (i.e. Hiring Manager)
 #' @return A string that is the JobDiva contact id of newly created contact
 #' @export
 
@@ -212,6 +213,63 @@ jobdiva_create_contact_bulk = function(creation_df, type)
     }
     
     linkedin = x$LINKEDIN
+    
+    # Address
+    {
+      if ('STATE' %in% toupper(colnames(creation_df)))
+      {
+        state = x$STATE
+      } else if ('STATE_PROVINCE' %in% toupper(colnames(creation_df)))
+      {
+        state = x$STATE_PROVINCE
+      } else
+      {
+        state = NULL
+      }
+      
+      if ('CITY' %in% toupper(colnames(creation_df)))
+      {
+        city = x$CITY
+      } else
+      {
+        city = ""
+      }
+      
+      if(!is.null(state))
+      {
+        addresses = paste0('&addresses={%0A  "action": '
+                 , 0
+                 , ',%0A'
+                 , '  "address1": "",%0A'
+                 , '  "address2": "",%0A'
+                 , '  "city": "'
+                 , city
+                 , '",%0A'
+                 , '  "countryId": "",%0A'
+                 , '  "defaultAddress": "true",%0A'
+                 , '  "deleted": "false",%0A'
+                 , '  "freeText": "",%0A'
+                 , '  "id": 0,%0A'
+                 , '  "state": "'
+                 , state
+                 , '",%0A'
+                 , '  "address2": "",%0A'
+                 , '  "zipCode": ""%0A}')
+        
+        addresses = paste0(addresses, collapse = '')
+        addresses = as.character(addresses)
+        addresses = str_replace_all(addresses, 	'\\{', '%7B')
+        addresses = str_replace_all(addresses, 	'\\}', '%7D')
+        addresses = str_replace_all(addresses, 	'\\:', '%3A')
+        addresses = str_replace_all(addresses, '\\,', '%2C')
+        addresses = str_replace_all(addresses, '"', '%22')
+        addresses = str_replace_all(addresses, ' ', '%20')
+        addresses = str_replace_all(addresses, ' ', '%40')
+      } else
+      {
+        addresses = NULL
+      }
+    }
 
     # print(phones)
   
@@ -232,7 +290,8 @@ jobdiva_create_contact_bulk = function(creation_df, type)
                                     , alternate_email =  ifelse(is.null(alternate_email), "",alternate_email)
                                     , phx_employee_id = ifelse(is.null(phx_employee_id), "",phx_employee_id)
                                     , phone_numbers = ifelse(is.null(phones), "",phones)
-                                    , linkedin = ifelse(is.null(linkedin), "",linkedin)), silent = TRUE)
+                                    , linkedin = ifelse(is.null(linkedin), "",linkedin)
+                                    , addresses = ifelse(is.null(addresses), "",addresses)), silent = TRUE)
     if (class(single)[1] != 'try-error')
     {
       contact_ids = c(contact_ids, single)

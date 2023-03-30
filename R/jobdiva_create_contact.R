@@ -12,6 +12,7 @@
 #' @param phone_numbers (type: string) -- The properly formatted string for phone number creation (action = 0
 #' , phone = phone number, ext = "" and only for work phones, type: w = work, h = home, c = cell/mobile, f = fax, p = pager)
 #' @param phx_employee_id (type: string) -- The PHX Employee_Id of a contact from Phoenix
+#' @param linkedin (type: string) -- The LinkedIn URL of the contact's LinkedIn profile
 #' @return The JobDiva contact id of newly created contact
 #' @export
 
@@ -25,7 +26,8 @@ jobdiva_create_contact = function(first_name
                                   , type = ""
                                   , phone_numbers = ""
                                   , phx_employee_id = ""
-                                  , linkedin = "")
+                                  , linkedin = ""
+                                  , addresses = "")
 {
   
   # Clean variables
@@ -93,6 +95,11 @@ jobdiva_create_contact = function(first_name
     if(phone_numbers != "" & !is.null(phone_numbers) & !is.na(phone_numbers))
     {
       url = paste0(url, phone_numbers)
+    }
+    
+    if(addresses != "" & !is.null(addresses) & !is.na(addresses))
+    {
+      url = paste0(url, addresses)
     }
   }
   

@@ -106,10 +106,68 @@ jobdiva_update_contact = function(jobdiva_contact_id
     
   }
   
+  # Address
+  {
+    if ('STATE' %in% toupper(colnames(creation_df)))
+    {
+      state = x$STATE
+    } else if ('STATE_PROVINCE' %in% toupper(colnames(creation_df)))
+    {
+      state = x$STATE_PROVINCE
+    } else
+    {
+      state = NULL
+    }
+    
+    if ('CITY' %in% toupper(colnames(creation_df)))
+    {
+      city = x$CITY
+    } else
+    {
+      city = ""
+    }
+    
+    if(!is.null(state))
+    {
+      addresses = paste0('&addresses={%0A  "action": '
+                         , 1
+                         , ',%0A'
+                         , '  "address1": "",%0A'
+                         , '  "address2": "",%0A'
+                         , '  "city": "'
+                         , city
+                         , '",%0A'
+                         , '  "countryId": "",%0A'
+                         , '  "defaultAddress": "true",%0A'
+                         , '  "deleted": "false",%0A'
+                         , '  "freeText": "",%0A'
+                         , '  "id": 0,%0A'
+                         , '  "state": "'
+                         , state
+                         , '",%0A'
+                         , '  "address2": "",%0A'
+                         , '  "zipCode": ""%0A}')
+      
+      addresses = paste0(addresses, collapse = '')
+      addresses = as.character(addresses)
+      addresses = str_replace_all(addresses, 	'\\{', '%7B')
+      addresses = str_replace_all(addresses, 	'\\}', '%7D')
+      addresses = str_replace_all(addresses, 	'\\:', '%3A')
+      addresses = str_replace_all(addresses, '\\,', '%2C')
+      addresses = str_replace_all(addresses, '"', '%22')
+      addresses = str_replace_all(addresses, ' ', '%20')
+      addresses = str_replace_all(addresses, ' ', '%40')
+    } else
+    {
+      addresses = ""
+    }
+  }
+  
   url = paste0('https://api.jobdiva.com/api/jobdiva/updateContact?contactid='
                , jobdiva_contact_id
                , field_query
-               , udf_query)
+               , udf_query
+               , addresses)
   
   results = try(httr::POST(url
                            , add_headers("Authorization" = jobdiva_login())
