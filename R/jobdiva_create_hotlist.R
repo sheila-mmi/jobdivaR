@@ -1,18 +1,19 @@
-#' JobDiva API Login
+#' JobDiva Create Hotlist
 #' 
-#' This function will return the key for authentication into JobDiva's API
+#' This function will create a hotlist in JobDiva and return new hotlist's id
 #' 
-#' @param client_id (type: string) -- a string indicating with the client id given by JobDiva
-#' @param username (type: string) -- email address of the designated API account
-#' @param pass (type: string) -- password of the designated API account
-#' @return A string that is the key for authentication into JobDiva's API
+#' @param name (type: string) -- a string indicating with the client id given by JobDiva
+#' @param active (type: boolean) --  A boolean of whether or not the hotlist should be active
+#' @param priv (type: boolean) -- A boolean of whether or not the hotlist should be private (only viewable to the person who created it/those who it is shared with)
+#' @param description (type: string) -- a string to describe the hotlist
+#' @return A string that is the id of the newly created hotlist.
 #' @export
 
 
 jobdiva_create_hotlist = function(name
                                   , active = TRUE
                                   , priv = FALSE
-                                  , description
+                                  , description = ""
                                   , shared = c())
 {
   name = str_replace_all(name, ' ', '%20')

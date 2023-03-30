@@ -1,10 +1,10 @@
 #' JobDiva Create Company
 #' 
-#' This function will create a company in JobDiva
-#' if it does not already exist.
+#' This function will create a company in JobDiva if it does not already exist.
 #' 
 #' @param company_name (type: string) -- a string indicating with the client id given by JobDiva
 #' @param company_website (type: string) -- email address of the designated API account
+#' @param phx_normalized_company_id (type:string) -- the Phoenix Normalized Company Id to match the record to
 #' @return The JobDiva company id of the created company
 #' @export
 

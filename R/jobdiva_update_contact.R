@@ -5,7 +5,7 @@
 #' @param jobdiva_contact_id (type: string) -- a string with the JobDiva contact id of the contact
 #' to be updated
 #' @param update_df (type: dataframe) -- dataframe with the first column as 'FIELD' and second as 'CONTENT'
-#' @return 
+#' @return status of whether or not the contact was successfully updated.
 #' @export
 
 

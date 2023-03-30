@@ -8,6 +8,7 @@
 #'                          (i.e. for companynotesdetail: entity = 'companynotes', id_entity = 'company')
 #' @param clean_entity_df (type: dataframe) -- a dataframe that must have a column named 'id' with the entity ids to query details for
 #' @param udfs (type: vector) -- a vector of the UDFs to include
+#' @param bulk (type: boolean) -- a boolean indicating whether we are upating 1 record or multiple
 #' @return A dataframe of entity details for the given entities.
 #' @export
 

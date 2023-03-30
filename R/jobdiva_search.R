@@ -1,7 +1,7 @@
-#' Run get methods from Nutshell API
+#' Run search methods from JobDiva API
 #' 
-#' This function will return the HTTP response from get methods
-#' in Nutshell
+#' This function will return the HTTP response from search methods
+#' in JobDiva
 #' 
 #' @param entity (type: string) -- a string indicating which entity to get 
 #'                         (Company, Candidate,Contacts, etc.)

@@ -13,6 +13,7 @@
 #' , phone = phone number, ext = "" and only for work phones, type: w = work, h = home, c = cell/mobile, f = fax, p = pager)
 #' @param phx_employee_id (type: string) -- The PHX Employee_Id of a contact from Phoenix
 #' @param linkedin (type: string) -- The LinkedIn URL of the contact's LinkedIn profile
+#' @param addresses (type: string) -- The properly formatted string for address creation (action = 0 for creation and action = 1 for updating)
 #' @return The JobDiva contact id of newly created contact
 #' @export
 
@@ -88,7 +89,6 @@ jobdiva_create_contact = function(first_name
   
   # Build Query
   {
-    
     url = paste0('https://api.jobdiva.com/api/jobdiva/createContact?'
                  , field_query)
     

@@ -1,9 +1,8 @@
-  
-#' Query users from JD
+#' JobDiva Hotlist Add Contact
 #' 
-#' This function will return the list of users in JobDiva
+#' This function will add the contact to the specified hotlist in JD.
 #' 
-#' @return a Dataframe with users and their information from JobDiva                     
+#' @return a status indicating either success or failure                   
 #' @export
 
 jobdiva_hotlist_add_contact = function(hotlist_id, contact_id)

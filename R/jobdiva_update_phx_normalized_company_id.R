@@ -4,7 +4,7 @@
 #' 
 #' @param jobdiva_company_id (type: string) -- The company id
 #' @param phx_normalized_company_id (type: string) -- The Normalized_Company id of the company in PHX to upload to JobDiva
-#' @return 
+#' @return status of whether or not the company's phx_normalized_company_id was successfully updated.
 #' @export
 
 
