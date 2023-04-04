@@ -65,8 +65,7 @@ jobdiva_update_contact = function(jobdiva_contact_id
       field_query = paste0(fields, collapse = '')
       field_query = str_replace_all(field_query, ' ', '%20')
       field_query = str_replace_all(field_query, '@', '%40')
-    }
-    else
+    } else
     {
       field_query = ""
     }
@@ -97,9 +96,7 @@ jobdiva_update_contact = function(jobdiva_contact_id
       udf_query = str_replace_all(udf_query, '"', '%22')
       udf_query = str_replace_all(udf_query, ' ', '%20')
       udf_query = str_replace_all(udf_query, ' ', '%40')
-    }
-    
-    else
+    }else
     {
       udf_query = ""
     }
@@ -108,10 +105,10 @@ jobdiva_update_contact = function(jobdiva_contact_id
   
   # Address
   {
-    if ('STATE' %in% toupper(colnames(creation_df)))
+    if ('STATE' %in% toupper(colnames(update_df)))
     {
       state = x$STATE
-    } else if ('STATE_PROVINCE' %in% toupper(colnames(creation_df)))
+    } else if ('STATE_PROVINCE' %in% toupper(colnames(update_df)))
     {
       state = x$STATE_PROVINCE
     } else
@@ -119,7 +116,7 @@ jobdiva_update_contact = function(jobdiva_contact_id
       state = NULL
     }
     
-    if ('CITY' %in% toupper(colnames(creation_df)))
+    if ('CITY' %in% toupper(colnames(update_df)))
     {
       city = x$CITY
     } else
@@ -183,12 +180,12 @@ jobdiva_update_contact = function(jobdiva_contact_id
     
     else
     {
-      return('FAILURE')
+      return(paste0('FAILURE:', results))
     }
   }
   else
   {
-    return('FAILURE')
+    return(paste0('FAILURE:', results))
   }
   
   
