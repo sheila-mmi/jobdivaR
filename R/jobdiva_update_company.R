@@ -30,11 +30,14 @@ jobdiva_update_company = function(jobdiva_company_id
     udf_id = as.numeric(comp_udfs[match(x[1], comp_udfs$FIELDNAME), c('ID')])
     # jsonlite::toJSON(list(userfieldId = udf_id
     #           , userfieldValue = as.character(x[2])))
-    udf = paste0('&Userfields={%0A  "userfieldId": '
-                 , udf_id
-                 , ',%0A  "userfieldValue": "'
-                 , as.character(x[2])
-                 , '"%0A}')
+    if (!is.na(udf_id) && !is.null(udf_id))
+    {
+      udf = paste0('&Userfields={%0A  "userfieldId": '
+                   , udf_id
+                   , ',%0A  "userfieldValue": "'
+                   , as.character(x[2])
+                   , '"%0A}')
+    }
   })
   
   # udf_query = jsonlite::toJSON(udfs)
@@ -46,6 +49,7 @@ jobdiva_update_company = function(jobdiva_company_id
   udf_query = str_replace_all(udf_query, '\\,', '%2C')
   udf_query = str_replace_all(udf_query, '"', '%22')
   udf_query = str_replace_all(udf_query, ' ', '%20')
+  udf_query = str_replace_all(udf_query, 'NULL', '')
 
   
   
