@@ -157,6 +157,7 @@ jobdiva_create_contact = function(first_name
     print(new_contact_id)
   }
   
+  print(phx_employee_id)
   # Add PHX ID to contact
   {
     if (phx_employee_id != ''
@@ -166,6 +167,7 @@ jobdiva_create_contact = function(first_name
     {
       update_emp = try(jobdiva_update_phx_employee_id(new_contact_id
                                                   , phx_employee_id), silent = TRUE)
+      print(update_emp)
     }
   }
   
