@@ -323,10 +323,10 @@ jobdiva_update_contact_bulk = function(update_df)
     # Drop any empty content
     clean_update_df = clean_update_df[nchar(as.character(clean_update_df$CONTENT)) > 0,]
     
-    update_recs = try(jobdiva_update_contact(jd_id, clean_update_df), silent = TRUE)
+    updated_recs = try(jobdiva_update_contact(jd_id, clean_update_df), silent = TRUE)
     if (class(updated_recs)[1] != 'try-error')
     {
-      if(update_recs == 'SUCCESS')
+      if(updated_recs == 'SUCCESS')
       {
         updated_success_count = updated_success_count + 1
       }
