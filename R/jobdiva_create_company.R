@@ -15,8 +15,8 @@ jobdiva_create_company = function(company_name
 {
   name = trimws(company_name)
   name = str_replace_all(name, ' ', '%20')
-  name = str_replace_all(name, ' \\|', '%7C')
-  name = str_replace_all(name, ' \\&', '%26')
+  name = str_replace_all(name, '\\|', '%7C')
+  name = str_replace_all(name, '&', '%26')
   
   url = paste0('https://api.jobdiva.com/api/jobdiva/createCompany?companyname='
                , name

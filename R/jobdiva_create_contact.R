@@ -49,9 +49,8 @@ jobdiva_create_contact = function(first_name
       tmp = stringr::str_replace_all(tmp, '@', '%40')
       tmp = stringr::str_replace_all(tmp, '\\(', '%28')
       tmp = stringr::str_replace_all(tmp, '\\)', '%29')
-      tmp = str_replace_all(tmp, ' \\|', '%7C')
-      tmp = str_replace_all(tmp, ' \\&', '%26')
-      
+      tmp = str_replace_all(tmp, '\\|', '%7C')
+      tmp = str_replace_all(tmp, '&', '%26')
       
       clean_vars = c(clean_vars, as.character(tmp))
     }

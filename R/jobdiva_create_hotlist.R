@@ -19,11 +19,11 @@ jobdiva_create_hotlist = function(name
   name = str_replace_all(name, ' ', '%20')
   description = str_replace_all(as.character(description), ' ', '%20')
   
-  name = str_replace_all(name, ' \\|', '%7C')
-  description = str_replace_all(as.character(description),  ' \\|', '%7C')
+  name = str_replace_all(name, '\\|', '%7C')
+  description = str_replace_all(as.character(description),  '\\|', '%7C')
   
-  name = str_replace_all(name, ' \\&', '%26')
-  description = str_replace_all(as.character(description),  ' \\&', '%26')
+  name = str_replace_all(name, '&', '%26')
+  description = str_replace_all(as.character(description),  '&', '%26')
   
   shared = c(shared,'1525852')
   
