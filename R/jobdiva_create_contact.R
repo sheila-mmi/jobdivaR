@@ -80,13 +80,12 @@ jobdiva_create_contact = function(first_name
         udf = paste0('&'
                      , tolower(as.character(x[1]))
                      , "="
-                     , as.character(x[2]))
+                     , str_replace_all(as.character(x[2]), '&', '%26'))
       })
       
       field_query = paste0(fields, collapse = '')
       field_query = str_replace_all(field_query, ' ', '%20')
       field_query = str_replace_all(field_query, '@', '%40')
-      field_query = str_replace_all(field_query, '&', '%26')
       field_query = str_replace_all(field_query, ',', '%2C')
       field_query = str_replace_all(field_query,  '\\)', '%29')
       field_query = str_replace_all(field_query,  '\\(', '%28')

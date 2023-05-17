@@ -14,9 +14,16 @@ jobdiva_create_company = function(company_name
                                   , phx_normalized_company_id = "")
 {
   name = trimws(company_name)
-  name = str_replace_all(name, ' ', '%20')
+  name = stringr::str_replace_all(name, ' ', '%20')
+  name = stringr::str_replace_all(name, '@', '%40')
+  name = stringr::str_replace_all(name, '\\(', '%28')
+  name = stringr::str_replace_all(name, '\\)', '%29')
   name = str_replace_all(name, '\\|', '%7C')
   name = str_replace_all(name, '&', '%26')
+  name = str_replace_all(name, ',', '%2C')
+  name = str_replace_all(name, 	'\\{', '%7B')
+  name = str_replace_all(name, 	'\\}', '%7D')
+  name = str_replace_all(name, 	'\\:', '%3A')
   
   url = paste0('https://api.jobdiva.com/api/jobdiva/createCompany?companyname='
                , name

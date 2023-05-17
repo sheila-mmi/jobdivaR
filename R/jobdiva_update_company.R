@@ -35,7 +35,7 @@ jobdiva_update_company = function(jobdiva_company_id
       udf = paste0('&Userfields={%0A  "userfieldId": '
                    , udf_id
                    , ',%0A  "userfieldValue": "'
-                   , as.character(x[2])
+                   ,  str_replace_all(as.character(x[2]), '&', '%26')
                    , '"%0A}')
     }
   })
@@ -50,7 +50,6 @@ jobdiva_update_company = function(jobdiva_company_id
   udf_query = str_replace_all(udf_query, '"', '%22')
   udf_query = str_replace_all(udf_query, ' ', '%20')
   udf_query = str_replace_all(udf_query, ' ', '%40')
-  udf_query = str_replace_all(udf_query, '&', '%26')
   udf_query = str_replace_all(udf_query,  '\\)', '%29')
   udf_query = str_replace_all(udf_query,  '\\(', '%28')
   udf_query = str_replace_all(udf_query,  '\\|', '%7C')
