@@ -51,6 +51,10 @@ jobdiva_create_contact = function(first_name
       tmp = stringr::str_replace_all(tmp, '\\)', '%29')
       tmp = str_replace_all(tmp, '\\|', '%7C')
       tmp = str_replace_all(tmp, '&', '%26')
+      tmp = str_replace_all(tmp, ',', '%2C')
+      tmp = str_replace_all(tmp, 	'\\{', '%7B')
+      tmp = str_replace_all(tmp, 	'\\}', '%7D')
+      tmp = str_replace_all(tmp, 	'\\:', '%3A')
       
       clean_vars = c(clean_vars, as.character(tmp))
     }
@@ -82,6 +86,16 @@ jobdiva_create_contact = function(first_name
       field_query = paste0(fields, collapse = '')
       field_query = str_replace_all(field_query, ' ', '%20')
       field_query = str_replace_all(field_query, '@', '%40')
+      field_query = str_replace_all(field_query, '&', '%26')
+      field_query = str_replace_all(field_query, ',', '%2C')
+      field_query = str_replace_all(field_query,  '\\)', '%29')
+      field_query = str_replace_all(field_query,  '\\(', '%28')
+      field_query = str_replace_all(field_query,  '\\|', '%7C')
+      field_query = str_replace_all(field_query, 	'\\{', '%7B')
+      field_query = str_replace_all(field_query, 	'\\}', '%7D')
+      field_query = str_replace_all(field_query, 	'\\:', '%3A')
+      
+      
     }
     else
     {

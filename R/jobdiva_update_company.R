@@ -49,6 +49,11 @@ jobdiva_update_company = function(jobdiva_company_id
   udf_query = str_replace_all(udf_query, '\\,', '%2C')
   udf_query = str_replace_all(udf_query, '"', '%22')
   udf_query = str_replace_all(udf_query, ' ', '%20')
+  udf_query = str_replace_all(udf_query, ' ', '%40')
+  udf_query = str_replace_all(udf_query, '&', '%26')
+  udf_query = str_replace_all(udf_query,  '\\)', '%29')
+  udf_query = str_replace_all(udf_query,  '\\(', '%28')
+  udf_query = str_replace_all(udf_query,  '\\|', '%7C')
   udf_query = str_replace_all(udf_query, 'NULL', '')
 
   

@@ -68,6 +68,15 @@ jobdiva_update_contact = function(jobdiva_contact_id
       field_query = paste0(fields, collapse = '')
       field_query = str_replace_all(field_query, ' ', '%20')
       field_query = str_replace_all(field_query, '@', '%40')
+      field_query = str_replace_all(field_query, '&', '%26')
+      field_query = str_replace_all(field_query, ',', '%2C')
+      field_query = str_replace_all(field_query,  '\\)', '%29')
+      field_query = str_replace_all(field_query,  '\\(', '%28')
+      field_query = str_replace_all(field_query,  '\\|', '%7C')
+      field_query = str_replace_all(field_query, 	'\\{', '%7B')
+      field_query = str_replace_all(field_query, 	'\\}', '%7D')
+      field_query = str_replace_all(field_query, 	'\\:', '%3A')
+      
     } else
     {
       field_query = ""
@@ -113,6 +122,10 @@ jobdiva_update_contact = function(jobdiva_contact_id
       udf_query = str_replace_all(udf_query, '"', '%22')
       udf_query = str_replace_all(udf_query, ' ', '%20')
       udf_query = str_replace_all(udf_query, ' ', '%40')
+      udf_query = str_replace_all(udf_query, '&', '%26')
+      udf_query = str_replace_all(udf_query,  '\\)', '%29')
+      udf_query = str_replace_all(udf_query,  '\\(', '%28')
+      udf_query = str_replace_all(udf_query,  '\\|', '%7C')
     }else
     {
       udf_query = ""
