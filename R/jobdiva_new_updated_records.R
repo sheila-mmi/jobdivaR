@@ -12,7 +12,7 @@
 
 jobdiva_new_updated_records = function(entity
                                        , from_date = as.character(format(Sys.Date() - 1, '%m/%d/%Y %H:%M:%S'))
-                                       , to_date = as.character(format(Sys.Date(), '%m/%d/%Y %H:%M:%S')))
+                                       , to_date = paste0(as.character(format(Sys.Date(), '%m/%d/%Y')),  ' 23:59:59'))
 {
   if(is.null(from_date)|| from_date == ' ' || from_date == '')
   {
@@ -21,7 +21,7 @@ jobdiva_new_updated_records = function(entity
   
   if(is.null(to_date) || to_date == ' ' || to_date == '')
   {
-    to_date = paste0(as.character(format(Sys.Date(), '%m/%d/%Y')),  ' 11:59:59')
+    to_date = paste0(as.character(format(Sys.Date(), '%m/%d/%Y')),  ' 23:59:59')
   }
   print(from_date)
   print(to_date)
