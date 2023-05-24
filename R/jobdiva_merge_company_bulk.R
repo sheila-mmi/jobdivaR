@@ -1,9 +1,9 @@
-#' JobDiva Merge Contact
+#' JobDiva Merge Company Bulk
 #' 
-#' This function will merge the dup contact to the master contact (and all of their activity) in JD.
+#' This function will bulk merge merge the dup contact to the master contact (and all of their activity) in JD.
 #' 
-#' @param dup_id_vec The contact id for the record to be merged into the main/master record
-#' @param master_id_vec The contact id for the record to inherit all of the notes and information from the dup record.
+#' @param dup_id_vec The company id vector for the records to be merged into the main/master record
+#' @param master_id_vec The company id vector for the records to inherit all of the notes and information from the dup record.
 #' @return a status indicating either success or failure                   
 #' @export
 

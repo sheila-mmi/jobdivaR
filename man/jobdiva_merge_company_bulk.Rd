@@ -2,18 +2,18 @@
 % Please edit documentation in R/jobdiva_merge_company_bulk.R
 \name{jobdiva_merge_company_bulk}
 \alias{jobdiva_merge_company_bulk}
-\title{JobDiva Merge Contact}
+\title{JobDiva Merge Company Bulk}
 \usage{
 jobdiva_merge_company_bulk(dup_id_vec, master_id_vec)
 }
 \arguments{
-\item{dup_id_vec}{The contact id for the record to be merged into the main/master record}
+\item{dup_id_vec}{The company id vector for the records to be merged into the main/master record}
 
-\item{master_id_vec}{The contact id for the record to inherit all of the notes and information from the dup record.}
+\item{master_id_vec}{The company id vector for the records to inherit all of the notes and information from the dup record.}
 }
 \value{
 a status indicating either success or failure
 }
 \description{
-This function will merge the dup contact to the master contact (and all of their activity) in JD.
+This function will bulk merge merge the dup contact to the master contact (and all of their activity) in JD.
 }
