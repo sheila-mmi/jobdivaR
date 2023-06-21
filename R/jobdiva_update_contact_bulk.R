@@ -82,7 +82,7 @@ jobdiva_update_contact_bulk = function(update_df)
       if(!is.null(state))
       {
         addresses = paste0('&addresses={%0A  "action": '
-                           , 0
+                           , 1
                            , ',%0A'
                            , '  "address1": "",%0A'
                            , '  "address2": "",%0A'
@@ -90,7 +90,7 @@ jobdiva_update_contact_bulk = function(update_df)
                            , city
                            , '",%0A'
                            , '  "countryId": "",%0A'
-                           , '  "defaultAddress": "true",%0A'
+                           , '  "defaultAddress": true,%0A'
                            , '  "deleted": "false",%0A'
                            , '  "freeText": "",%0A'
                            , '  "id": 0,%0A'
@@ -329,6 +329,20 @@ jobdiva_update_contact_bulk = function(update_df)
       if(updated_recs == 'SUCCESS')
       {
         updated_success_count = updated_success_count + 1
+      }
+    }
+    else
+    {
+      # Try one more time w/o address
+      clean_update_df = clean_update_df[clean_update_df$FIELD != 'addresses',]
+      updated_recs = try(jobdiva_update_contact(jd_id, clean_update_df), silent = TRUE)
+      
+      if (class(updated_recs)[1] != 'try-error')
+      {
+        if(updated_recs == 'SUCCESS')
+        {
+          updated_success_count = updated_success_count + 1
+        }
       }
     }
   }
