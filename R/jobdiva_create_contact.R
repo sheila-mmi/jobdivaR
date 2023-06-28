@@ -55,6 +55,7 @@ jobdiva_create_contact = function(first_name
       tmp = str_replace_all(tmp, 	'\\{', '%7B')
       tmp = str_replace_all(tmp, 	'\\}', '%7D')
       tmp = str_replace_all(tmp, 	'\\:', '%3A')
+      tmp = str_replace_all(tmp, 	'\t', '%20')
       
       clean_vars = c(clean_vars, as.character(tmp))
     }
