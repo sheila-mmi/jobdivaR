@@ -69,7 +69,10 @@ jobdiva_update_candidate_bulk = function(update_df)
         email = unlist(str_split(temp_df$WORK_EMAIL, ';'))[1]
         alternate_email = unlist(str_split(temp_df$WORK_EMAIL, ';'))[2]
         
-        if(is.null(email) && is.null(alternate_email))
+        email = ifelse(email == '', NA, email)
+        alternate_email = ifelse(alternate_email == '', NA, alternate_email)
+        
+        if((is.null(email) || is.na(email)) && (is.null(alternate_email) || is.na(alternate_email)))
         {
           email = unlist(str_split(temp_df$PERSONAL_EMAIL, ';'))[1]
           alternate_email = unlist(str_split(temp_df$PERSONAL_EMAIL, ';'))[2]
