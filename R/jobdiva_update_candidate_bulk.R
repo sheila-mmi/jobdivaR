@@ -64,13 +64,21 @@ jobdiva_update_candidate_bulk = function(update_df)
       {
         email = unlist(str_split(temp_df$EMAIL, ';'))[1]
         alternate_email = unlist(str_split(temp_df$EMAIL, ';'))[2]
-      } else if ('WORK_EMAIL' %in% toupper(colnames(temp_df)) & 'PERSONAL_EMAIL' %in% toupper(colnames(temp_df)))
+      } else if ('WORK_EMAIL' %in% toupper(colnames(temp_df)) || 'PERSONAL_EMAIL' %in% toupper(colnames(temp_df)))
       {
         email = unlist(str_split(temp_df$WORK_EMAIL, ';'))[1]
         alternate_email = unlist(str_split(temp_df$WORK_EMAIL, ';'))[2]
-        if(is.null(alternate_email))
+        
+        if(is.null(email) && is.null(alternate_email))
         {
-          alternate_email = unlist(str_split(temp_df$PERSONAL_EMAIL, ';'))[1]
+          email = unlist(str_split(temp_df$PERSONAL_EMAIL, ';'))[1]
+          alternate_email = unlist(str_split(temp_df$PERSONAL_EMAIL, ';'))[2]
+        } else if (!is.null(email))
+        {
+          if(is.null(alternate_email))
+          {
+            alternate_email = unlist(str_split(temp_df$PERSONAL_EMAIL, ';'))[1]
+          }
         }
         
         if (is.null(email)
@@ -283,29 +291,24 @@ jobdiva_update_candidate_bulk = function(update_df)
                                               , 'STATE', 'state')
     }
     
-    updated_recs = try(jobdiva_update_candidate_profile(jd_id, clean_update_df), silent = TRUE)
-    if (class(updated_recs)[1] != 'try-error')
+    updated_recs_1 = try(jobdiva_update_candidate_profile(jd_id, clean_update_df), silent = TRUE)
+    updated_recs_2 = try(jobdiva_update_candidate_udfs(jd_id, clean_update_df), silent = TRUE)
+    
+    if (class(updated_recs_1)[1] != 'try-error' 
+        || class(updated_recs_2)[1] != 'try-error')
     {
-      if(updated_recs == 'SUCCESS')
+      if (updated_recs_1 == 'SUCCESS' 
+          || updated_recs_2 == 'SUCCESS')
       {
         updated_success_count = updated_success_count + 1
-      } else {
-        # Try one more time w/o address
-        clean_update_df = clean_update_df[clean_update_df$FIELD != 'addresses',]
-        updated_recs = try(jobdiva_update_candidate(jd_id, clean_update_df), silent = TRUE)
-        
-        if (class(updated_recs)[1] != 'try-error')
-        {
-          if(updated_recs == 'SUCCESS')
-          {
-            updated_success_count = updated_success_count + 1
-          }
-        }
       }
     }
-    else
+    if ('LINKEDIN' %in% toupper(clean_update_df$FIELD))
     {
-      return(updated_recs)
+      linkedin_url = as.character(clean_update_df[which(toupper(clean_update_df$FIELD) == 'LINKEDIN'), c('CONTENT')])
+      update_linkedin = try(jobdiva_update_candidate_social_link(jd_id
+                                                                 , linkedin_url
+                                                                 , 'LinkedIn'))
     }
   }
   

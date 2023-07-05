@@ -66,6 +66,11 @@ jobdiva_update_candidate_profile = function(jobdiva_candidate_id
     }
   }
   
+  if (nchar(field_query) == 0
+      && nchar(standard_exception_query) == 0)
+  {
+    return('No information to update')
+  }
   url = paste0('https://api.jobdiva.com/api/jobdiva/updateCandidateProfile?candidateid='
                , jobdiva_candidate_id
                , field_query
