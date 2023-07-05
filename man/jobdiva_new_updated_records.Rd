@@ -7,7 +7,7 @@
 jobdiva_new_updated_records(
   entity,
   from_date = as.character(format(Sys.Date() - 1, "\%m/\%d/\%Y \%H:\%M:\%S")),
-  to_date = as.character(format(Sys.Date(), "\%m/\%d/\%Y \%H:\%M:\%S"))
+  to_date = paste0(as.character(format(Sys.Date(), "\%m/\%d/\%Y")), " 23:59:59")
 )
 }
 \arguments{
