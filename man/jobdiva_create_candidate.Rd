@@ -8,7 +8,6 @@ jobdiva_create_candidate(
   first_name,
   last_name,
   title = "",
-  company_name = "",
   email = "",
   alternate_email = "",
   work_phone = "",
@@ -23,8 +22,6 @@ jobdiva_create_candidate(
 \item{first_name}{(type: string) --}
 
 \item{last_name}{(type: string) --}
-
-\item{company_name}{(type: string) --}
 
 \item{email}{(type: string) --}
 
