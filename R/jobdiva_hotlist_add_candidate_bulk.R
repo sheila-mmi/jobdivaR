@@ -9,25 +9,30 @@
 
 jobdiva_hotlist_add_candidate_bulk = function(jobdiva_candidate_id_vector, hotlist_id)
 {
-  
   jobdiva_candidate_id_vector = as.character(jobdiva_candidate_id_vector)
+  jobdiva_candidate_id_vector = split(jobdiva_candidate_id_vector, ceiling(seq_along(jobdiva_candidate_id_vector)/100))
+  
   clean_jobdiva_candidate_id_vector = lapply(jobdiva_candidate_id_vector, function(x) {
     x = paste0(x, collapse = paste0('&candidateIds='))
     x =  paste0('&candidateIds=', x)
   })
   
-  clean_jobdiva_candidate_id_vector = paste0(clean_jobdiva_candidate_id_vector, collapse = '')
+  # clean_jobdiva_candidate_id_vector = paste0(clean_jobdiva_candidate_id_vector, collapse = '')
   
-  results = data.frame()
+  results = list()
   
   base_url = "https://api.jobdiva.com/api/hotlist/addCandidatesToHotlist?hotListid="
   
-  request = httr::POST(url = paste0(base_url, hotlist_id,clean_jobdiva_candidate_id_vector)
-                       , add_headers("Authorization" = jobdiva_login())
-                       , encode = "json"
-                       , httr::verbose())
-  
-  results = httr::content(request)
+  for (i in 1:length(clean_jobdiva_candidate_id_vector))
+  {
+    request = try(httr::POST(url = paste0(base_url, hotlist_id,clean_jobdiva_candidate_id_vector[i])
+                         , add_headers("Authorization" = jobdiva_login())
+                         , encode = "json"
+                         , httr::verbose()), silent = TRUE)
+    
+    temp_results = httr::content(request)
+    results[[i]] = temp_results
+  }
   
   return(results)
 }
