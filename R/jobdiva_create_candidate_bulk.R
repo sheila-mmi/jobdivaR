@@ -20,24 +20,27 @@ jobdiva_create_candidate_bulk = function(creation_df)
     last_name =x$LAST_NAME
     title = as.character(x$TITLE)
 
-    if ('EMAIL' %in% toupper(colnames(temp_df)))
+    if ('EMAIL' %in% toupper(colnames(x)))
     {
-      email = unlist(str_split(temp_df$EMAIL, ';'))[1]
-      alternate_email = unlist(str_split(temp_df$EMAIL, ';'))[2]
-    } else if ('WORK_EMAIL' %in% toupper(colnames(temp_df)) || 'PERSONAL_EMAIL' %in% toupper(colnames(temp_df)))
+      email = unlist(str_split(x$EMAIL, ';'))[1]
+      alternate_email = unlist(str_split(x$EMAIL, ';'))[2]
+    } else if ('WORK_EMAIL' %in% toupper(colnames(x)) || 'PERSONAL_EMAIL' %in% toupper(colnames(x)))
     {
-      email = unlist(str_split(temp_df$WORK_EMAIL, ';'))[1]
-      alternate_email = unlist(str_split(temp_df$WORK_EMAIL, ';'))[2]
+      email = unlist(str_split(x$WORK_EMAIL, ';'))[1]
+      alternate_email = unlist(str_split(x$WORK_EMAIL, ';'))[2]
       
-      if(is.null(email) && is.null(alternate_email))
+      email = ifelse(email == '', NA, email)
+      alternate_email = ifelse(alternate_email == '', NA, alternate_email)
+      
+      if((is.null(email) || is.na(email)) && (is.null(alternate_email) || is.na(alternate_email)))
       {
-        email = unlist(str_split(temp_df$PERSONAL_EMAIL, ';'))[1]
-        alternate_email = unlist(str_split(temp_df$PERSONAL_EMAIL, ';'))[2]
+        email = unlist(str_split(x$PERSONAL_EMAIL, ';'))[1]
+        alternate_email = unlist(str_split(x$PERSONAL_EMAIL, ';'))[2]
       } else if (!is.null(email))
       {
         if(is.null(alternate_email))
         {
-          alternate_email = unlist(str_split(temp_df$PERSONAL_EMAIL, ';'))[1]
+          alternate_email = unlist(str_split(x$PERSONAL_EMAIL, ';'))[1]
         }
       }
       
