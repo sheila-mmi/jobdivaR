@@ -81,10 +81,10 @@ jobdiva_create_candidate = function(first_name
                                       , last_name
                                       , email
                                       , alternate_email
-                                      , work_phone
-                                      , cell_phone
                                       , city
                                       , state
+                                      , work_phone
+                                      , cell_phone
                                       , title))
       
       
