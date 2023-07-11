@@ -40,6 +40,18 @@ jobdiva_new_updated_records = function(entity
                       )
                       , encode = "json"
                       , httr::verbose()) 
+  
+  # Error Log Check
+  user = 'swarrick01'
+  key_3_0 = phx_db_login(user, '1BeanzPaddle!', 'aobi', 'Phoenix_3_0')
+  error_log_check = try(jobdiva_error_log('jobdiva_new_updated_records'
+                                      , request
+                                      , key_3_0
+                                      , user
+                                      , '~/jobdiva_error_log_temp.csv')
+                        , silent = TRUE)
+  
+  
   results = httr::content(request)
   results = results[[2]]
   result_df = try(dplyr::bind_rows(results), silent = TRUE)
