@@ -30,6 +30,19 @@ jobdiva_hotlist_add_candidate_bulk = function(jobdiva_candidate_id_vector, hotli
                          , encode = "json"
                          , httr::verbose()), silent = TRUE)
     
+    # Error Log Check
+    {
+      user = 'swarrick01'
+      key_3_0 = phx_db_login(user, '1BeanzPaddle!', 'aobi', 'Phoenix_3_0')
+      error_log_check = try(jobdiva_error_log('jobdiva_hotlist_add_candidate_bulk'
+                                              , request
+                                              , key_3_0
+                                              , user
+                                              , '~/jobdiva_error_log_temp.csv')
+                            , silent = TRUE)
+    }
+    
+    
     temp_results = httr::content(request)
     results[[i]] = temp_results
   }
