@@ -20,8 +20,14 @@ jobdiva_error_log = function(r_function_name, http_response, phx_key, phx_user, 
    return('No error to log.')
  } else {
    resp_message = content(http_response)
-   resp_message = resp_message[[1]]
    resp_message = resp_message$message
+   if(is.null(resp_message))
+   {
+     resp_message = content(http_response)
+     resp_message = resp_message[[1]]
+     resp_message = resp_message$message
+   } 
+   
    print(resp_message)
    
    if(is.null(resp_message))
