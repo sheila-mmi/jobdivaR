@@ -7,17 +7,9 @@
 jobdiva_hotlist_add_contact_bulk(jobdiva_contact_id_vector, hotlist_id)
 }
 \arguments{
-\item{entity}{(type: string) -- a string indicating which entity to find 
-(Company, Candidate, Contact, etc.)}
+\item{jobdiva_contact_id_vector}{(type: vector) -- The vector of contact ids of contacts to be added to the given hotlist}
 
-\item{id_entity}{(type: string) --  what id are you using to identify the records
-(i.e. for companynotesdetail: entity = 'companynotes', id_entity = 'company')}
-
-\item{clean_entity_df}{(type: dataframe) -- a dataframe that must have a column named 'id' with the entity ids to query details for}
-
-\item{udfs}{(type: vector) -- a vector of the UDFs to include}
-
-\item{bulk}{(type: boolean) -- a boolean indicating whether we are upating 1 record or multiple}
+\item{hotlist_id}{(type: string) -- The id of the CONTACT hotlist that the contacts should be added to}
 }
 \value{
 A dataframe of entity details for the given entities.
