@@ -10,9 +10,9 @@ jobdiva_search_contact_by_email = function(contact_email)
 {
   
   email = as.character(str_replace(contact_email,'@', '%40'))
-  base_url = 'https://api.jobdiva.com/api/jobdiva/searchContacts?email='
+  base_url = 'https://api.jobdiva.com/api/jobdiva/SearchContacts?email='
   
-  request = httr::POST(url = paste0(base_url, contact_email)
+  request = httr::GET(url = paste0(base_url, contact_email)
                        , add_headers("Authorization" = jobdiva_login())
                        , encode = "json"
                        , httr::verbose())
