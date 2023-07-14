@@ -60,7 +60,10 @@ jobdiva_create_candidate = function(first_name
         tmp = str_replace_all(tmp, 	'\\:', '%3A')
         tmp = str_replace_all(tmp, 	'\t', '%20')
         tmp = str_replace_all(tmp, 	'–', '--')
-        
+        tmp = str_replace_all(tmp, 	"'", '%27')
+        tmp = str_replace_all(tmp, 	"’", '%27')
+        tmp = str_replace_all(tmp, 	"‘", '%27')
+
         clean_vars = c(clean_vars, as.character(tmp))
       }
     }

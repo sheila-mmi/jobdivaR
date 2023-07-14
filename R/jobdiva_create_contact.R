@@ -42,6 +42,7 @@ jobdiva_create_contact = function(first_name
              , type )}
     
     clean_vars = c()
+    print(vars)
     for (i in 1:length(vars))
     {
       tmp = as.character(vars[i])
@@ -56,7 +57,12 @@ jobdiva_create_contact = function(first_name
       tmp = str_replace_all(tmp, 	'\\}', '%7D')
       tmp = str_replace_all(tmp, 	'\\:', '%3A')
       tmp = str_replace_all(tmp, 	'\t', '%20')
-      
+      tmp = str_replace_all(tmp, 	"'", '%27')
+      tmp = str_replace_all(tmp, 	"’", '%27')
+      tmp = str_replace_all(tmp, 	"‘", '%27')
+      tmp = str_replace_all(tmp, 	"–", '--')
+      print(tmp)
+
       clean_vars = c(clean_vars, as.character(tmp))
     }
   }
@@ -94,6 +100,8 @@ jobdiva_create_contact = function(first_name
       field_query = str_replace_all(field_query, 	'\\{', '%7B')
       field_query = str_replace_all(field_query, 	'\\}', '%7D')
       field_query = str_replace_all(field_query, 	'\\:', '%3A')
+      field_query = str_replace_all(field_query, 	"’", '%27')
+      field_query = str_replace_all(field_query, 	"‘", '%27')
       
       
     }
