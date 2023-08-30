@@ -31,9 +31,7 @@ jobdiva_search = function(entity, offset = "")
                           , encode = "json"
                           , httr::verbose()) 
     }
-  }
-  
-  else
+  } else
   {
     request = httr::GET(url = paste0(base_url, full_method, "?offset=", offset)
                         , add_headers("Authorization" = jobdiva_login())
