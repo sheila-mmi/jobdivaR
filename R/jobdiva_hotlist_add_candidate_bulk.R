@@ -42,6 +42,24 @@ jobdiva_hotlist_add_candidate_bulk = function(jobdiva_candidate_id_vector, hotli
                             , silent = TRUE)
     }
     
+    # Remove existing candidates from 
+    curr_code = as.numeric(status_code(request))
+    curr_vec = clean_jobdiva_candidate_id_vector[i]
+    while (curr_code == 500)
+    {
+      curr_mesg = content(request)
+      curr_mesg = curr_mesg$message
+      candidate_to_remove = str_sub(curr_mesg, str_locate(curr_mesg, '\\[')[1] + 1, str_locate(curr_mesg, '\\]')[1] -1)
+      new_vec = str_remove(curr_vec, paste0('&candidateIds=', candidate_to_remove))
+                           
+      request = try(httr::POST(url = paste0(base_url, hotlist_id,new_vec)
+                               , add_headers("Authorization" = jobdiva_login())
+                               , encode = "json"
+                               , httr::verbose()), silent = TRUE)
+      
+      curr_code = as.numeric(status_code(request))
+      curr_vec = new_vec
+    }
     
     temp_results = httr::content(request)
     results[[i]] = temp_results
