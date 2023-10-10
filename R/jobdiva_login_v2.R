@@ -11,7 +11,7 @@
 
 jobdiva_login_v2 = function(client_id = 2425
                          , username = 'API.jobdiva@itmmi.com'
-                         , pass = 'ItmmI550$')
+                         , pass = '1BeanzPaddle!')
 {
   url = paste0('https://api.jobdiva.com/apiv2/authenticate?clientid='
                , client_id
