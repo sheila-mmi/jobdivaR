@@ -26,6 +26,7 @@ jobdiva_create_hotlist = function(name
   description = str_replace_all(as.character(description),  '&', '%26')
   
   shared = c(shared,'1525852')
+  shared = unique(shared)
   
   url = paste0('https://api.jobdiva.com/api/hotlist/createContactHotlist?name='
                , name
